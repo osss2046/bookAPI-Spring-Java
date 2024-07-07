@@ -6,8 +6,10 @@ import com.books.bookAPI.service.ConsumoAPI;
 import com.books.bookAPI.service.ConvierteDatos;
 
 import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -47,5 +49,18 @@ public class Principal {
         } else {
             System.out.println("Libro no encontrado :c");
         }
+
+
+
+        // Trabajando con estadisticas
+
+        DoubleSummaryStatistics est = datos.resultados().stream()
+                .filter(d -> d.numeroDescargas() > 0)
+                .collect(Collectors.summarizingDouble(DatosLibros::numeroDescargas));
+        System.out.println("Promedio de descargas: "+est.getAverage());
+        System.out.println("Libro con maximo descargas: "+est.getMax());
+        System.out.println("Libro con minima descargas: "+est.getMin());
+        System.out.println("Cantidad de registros evaluados para obtener promedio: "+est.getCount());
+
     }
 }
